@@ -1,4 +1,4 @@
-@testmodule DataStreamTest begin
+@testmodule DataReaderTest begin
   using CSE151MachineLearningLibrary
 
   function test_DataSetMemory()

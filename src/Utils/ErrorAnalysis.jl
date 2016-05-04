@@ -47,12 +47,9 @@ module ErrorAnalysis
     confusionmatrix = confusionmatrix[:,2:end]
 
     totals = Statistics.sumColumn(confusionmatrix)
-    println(totals);
     correct = diag(confusionmatrix)'
-    println(correct)
 
     averages = filter(x->!isnan(x),correct.*(1.0./totals))
-    println(averages)
     return mean(averages)
   end
 

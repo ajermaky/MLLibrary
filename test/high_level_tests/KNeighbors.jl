@@ -16,7 +16,7 @@ resources=[
 ]
 errors = Dict()
 
-outfile = open(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","ConfusionMatrix.txt"),"w")
+outfile = open(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","paResources","Week2","ConfusionMatrix.txt"),"w")
 for r  in resources
 
   println("Running Tests for ",r["res"])
@@ -128,4 +128,4 @@ end
 
 push!(p,  Guide.manual_color_key("Legend", color_keys, colors))
 
-draw(PNG(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","myplot.png"), 800px, 600px), p)
+draw(PNG(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","paResources","Week2","ErrorRatesVsK.png"), 800px, 600px), p)

@@ -33,4 +33,18 @@ using CSE151MachineLearningLibrary
     A=["1" 2 3.1 "3.2"]
     @test CSE151MachineLearningLibrary.DataManipulation.DataTransform.convertToFloat(A)==[1. 2. 3.1 3.2]
   end
+
+  function test_zScaleColumn()
+    A=CSE151MachineLearningLibrary.DataManipulation.DataTransform.convertToFloat([1 2 3 4;5 6 7 8;
+       9 10 11 12; 13 14 15 16])
+    Expected = [-1.161895003862225;
+        -0.3872983346207417;
+         0.3872983346207417;
+         1.161895003862225]
+    @test CSE151MachineLearningLibrary.DataManipulation.DataTransform.zScaleColumn(A,1)==Expected
+    @test CSE151MachineLearningLibrary.DataManipulation.DataTransform.zScaleColumn(A,2)==Expected
+    @test CSE151MachineLearningLibrary.DataManipulation.DataTransform.zScaleColumn(A,3)==Expected
+    @test CSE151MachineLearningLibrary.DataManipulation.DataTransform.zScaleColumn(A,4)==Expected
+
+  end
 end

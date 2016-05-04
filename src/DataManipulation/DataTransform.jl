@@ -52,4 +52,14 @@ module DataTransform
 
   end
 
+  function zScaleColumn(A,col,average=nothing, standardeviation=nothing)
+    column = A[:,col]
+    if average==nothing || standardeviation==nothing
+      average=mean(column)
+      standardeviation = std(column)
+    end
+    A[:,col]= (column.-average)./standardeviation
+  end
+
+
 end

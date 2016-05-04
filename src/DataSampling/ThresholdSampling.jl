@@ -1,4 +1,5 @@
 module ThresholdSampling
+  using CSE151MachineLearningLibrary
   using ..DataParser
   function getThresholdDataSetIndicies(file,size,threshold,isTest)
     number_remaining =size
@@ -68,15 +69,19 @@ module ThresholdSampling
 end
 
 
-function getThresholdTestSetInMemory(file,threshold,datatype=Any)
-  return getDataSetInMemory(file,threshold,datatype,getTestSetIndices)
+function getTestSet(file,delimiter,threshold,datatype=Any)
+  count = CSE151MachineLearningLibrary.DataParser.DataStream.getDataSetCount(file)
+  indices =getThresholdTestSetIndices(file,count,threshold)
 
+  return CSE151MachineLearningLibrary.DataSampling.DataReader.getDataSetInMemoryFromIndices(file,delimiter,indices)
 
 end
 
 
-function getThresholdTrainingSetInMemory(file,threshold,datatype=Any)
-  return getDataSetInMemory(file,threshold,datatype,getTrainingSetIndices)
+function getTrainingSet(file,delimiter,threshold,datatype=Any)
+  count = CSE151MachineLearningLibrary.DataParser.DataStream.getDataSetCount(file)
+  indices = getThresholdTrainingSetIndicies(file,count,threshold)
+  return CSE151MachineLearningLibrary.DataSampling.DataReader.getDataSetInMemoryFromIndices(file,delimiter,indices)
 end
 
 

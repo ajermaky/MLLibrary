@@ -58,7 +58,8 @@ module DataTransform
       average=mean(column)
       standardeviation = std(column)
     end
-    A[:,col]= (column.-average)./standardeviation
+    A[:,col]= (column - average)/standardeviation
+    return A
   end
 
 

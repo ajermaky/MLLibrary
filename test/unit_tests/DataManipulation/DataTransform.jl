@@ -41,10 +41,11 @@ using CSE151MachineLearningLibrary
         -0.3872983346207417;
          0.3872983346207417;
          1.161895003862225]
-    @test CSE151MachineLearningLibrary.DataManipulation.DataTransform.zScaleColumn(A,1)==Expected
-    @test CSE151MachineLearningLibrary.DataManipulation.DataTransform.zScaleColumn(A,2)==Expected
-    @test CSE151MachineLearningLibrary.DataManipulation.DataTransform.zScaleColumn(A,3)==Expected
-    @test CSE151MachineLearningLibrary.DataManipulation.DataTransform.zScaleColumn(A,4)==Expected
+    @test CSE151MachineLearningLibrary.DataManipulation.DataTransform.zScaleColumn(A,1)==[Expected A[:,2:end]]
+         @test CSE151MachineLearningLibrary.DataManipulation.DataTransform.zScaleColumn(A,2)==[Expected Expected A[:,3:end]]
+         @test CSE151MachineLearningLibrary.DataManipulation.DataTransform.zScaleColumn(A,3)==[Expected Expected Expected A[:,4]]
+         @test CSE151MachineLearningLibrary.DataManipulation.DataTransform.zScaleColumn(A,4)==[Expected Expected Expected Expected]
 
   end
+
 end

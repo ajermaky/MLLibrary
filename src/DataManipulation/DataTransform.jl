@@ -44,11 +44,11 @@ module DataTransform
       std = Statistics.stdColumn(A)
     end
     std= 1./std
-    B= convert(Array{Float64,2}, A)
-    for i=1:size(B)[1]
-        B[i,:]= (B[i,:]-mean).*std
+    #B= convert(Array{Float64,2}, A)
+    for i=1:size(A)[1]
+        A[i,:]= (A[i,:]-mean).*std
     end
-    return B
+    return A
 
   end
 

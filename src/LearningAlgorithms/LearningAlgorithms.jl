@@ -1,5 +1,5 @@
 module LearningAlgorithms
-  files = ["KNeighbors"]
+  files = ["KNeighbors","LinearRegression"]
   for f in files
     include("$f.jl")
   end

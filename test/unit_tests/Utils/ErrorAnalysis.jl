@@ -53,5 +53,13 @@ using Base.Test
 
   end
 
+  function test_calculateRootMeanStandardError()
+    y=[1;2;3;4;5;6;1;2;3]
+    observed = [0;4;2;1;5;2;1;6;1]
+
+    @test round(CSE151MachineLearningLibrary.Utils.ErrorAnalysis.calculateRootMeanStandardError(observed,y),2)==2.38
+
+  end
+
 
 end

@@ -31,7 +31,7 @@ using CSE151MachineLearningLibrary
 
   function test_floatConversion()
     A=["1" 2 3.1 "3.2"]
-    @test CSE151MachineLearningLibrary.DataManipulation.DataTransform.convertToFloat(A)==[1. 2. 3.1 3.2]
+    @test round(CSE151MachineLearningLibrary.DataManipulation.DataTransform.convertToFloat(A),1)==[1. 2. 3.1 3.2]
   end
 
   function test_zScaleColumn()

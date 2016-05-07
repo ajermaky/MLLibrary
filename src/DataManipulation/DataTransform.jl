@@ -3,18 +3,18 @@ module DataTransform
   using ...Statistics
   #assume that you have a matrix m-n
 
-  function convertToFloat(A)
+  function convertToFloat(A,datatype=Float64)
     for i=1:length(A)
       val = A[i]
       #println(typeof(val))
 
       if typeof(val)==Int64
-        A[i]=convert(Float64,val)
+        A[i]=convert(datatype,val)
       elseif typeof(val)==ASCIIString || typeof(val)==SubString{ASCIIString}
-        A[i]=parse(Float64,val)
+        A[i]=parse(datatype,val)
       end
     end
-    return convert(Array{Float64,ndims(A)}, A)
+    return convert(Array{datatype,ndims(A)}, A)
 
   end
 

@@ -84,6 +84,13 @@ function getTrainingSet(file,delimiter,threshold,datatype=Any)
   return CSE151MachineLearningLibrary.DataSampling.DataReader.getDataSetInMemoryFromIndices(file,delimiter,indices)
 end
 
+  function getSets(file,delimiter,threshold,seed=1,datatype=Any)
+    srand(seed)
+    trainingset = getTrainingSet(file,delimiter,threshold,datatype)
+    srand(seed)
+    testset = getTestSet(file,delimiter,threshold,datatype)
+    return trainingset, testset
+  end
 
 
 end

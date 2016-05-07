@@ -53,4 +53,10 @@ module ErrorAnalysis
     return mean(averages)
   end
 
+
+  function calculateRootMeanStandardError(observed,actual)
+    y = actual-observed;
+    return sqrt(y'*y/length(y))[1]
+  end
+
 end

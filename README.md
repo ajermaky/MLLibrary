@@ -20,11 +20,17 @@ To use this module:
   using CSE151MachineLearningLibrary
 ```
 ##Different Branches
+Previous Branches:
+Week1&2 Branch: week1_and_2_refactor
+Week 3 Branch: week3
+
 To see previous branches, simply do
 ```git
   git fetch <branch_name>
   git checkout <branch_name>
+
 ```
+
 ##Test:
 
 To Run Unit Tests:

@@ -1,7 +1,8 @@
 module LinearRegression
+  using CSE151MachineLearningLibrary
   function linearRegression(X,Y, qrFunc)
-    Q,R = qrFunc(X)
-    return CSE151MachineLearningLibrary.LinearAlgebra.Commons.backsolve(R,Q'*Y)
+    qrFunc(X,Y)
+    return CSE151MachineLearningLibrary.LinearAlgebra.Commons.backsolve(X,Y)
 
 
   end

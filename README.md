@@ -37,6 +37,7 @@ To run custom KNeighbors test that regenerates confusion matrices and graph:
   cd("~/.julia/v0.4/CSE151MachineLearningLibrary")
   include("test/high_level_tests/Statistics.jl")
   include("test/high_level_tests/KNeighbors.jl")
+  include("test/high_level_tests/LinearRegression.jl")
 ```
 ##Unintsall
 ```julia

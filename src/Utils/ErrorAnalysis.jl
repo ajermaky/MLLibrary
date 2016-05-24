@@ -59,4 +59,14 @@ module ErrorAnalysis
     return sqrt(y'*y/length(y))[1]
   end
 
+  function calculateWCSS(centroids,dataset, y)
+    wcss = 0;
+    for i=1:size(centroids)[1]
+      cent = centroids[i,:]
+      newdataset =dataset[find(x->x==i,y),:]
+      wcss+=sum(newdataset*cent')
+    end
+    return wcss
+  end
+
 end

@@ -61,5 +61,14 @@ using Base.Test
 
   end
 
+  function test_calculateWCSS()
+    centroids=[1 2 3 4;5 6 7 8]
+    data=[1 2 1 1;4 1 2 2; 5 2 1 4;3 3 2 1]
+    y=[1;1;2;2]
+    wcss = CSE151MachineLearningLibrary.Utils.ErrorAnalysis.calculateWCSS(centroids,data,y)
+
+    @test wcss==163
+  end
+
 
 end

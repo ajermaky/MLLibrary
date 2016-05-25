@@ -1,5 +1,6 @@
 module ErrorAnalysis
   using ...Statistics
+  using Distances
 
   function generateConfusionMatrix(test_set,predicted_set)
     maxval = convert(Int,max(maximum(test_set),maximum(predicted_set)))
@@ -64,7 +65,9 @@ module ErrorAnalysis
     for i=1:size(centroids)[1]
       cent = centroids[i,:]
       newdataset =dataset[find(x->x==i,y),:]
-      wcss+=sum(newdataset*cent')
+      for j=1:size(newdataset)[1]
+        wcss+=(euclidean(cent,newdataset[j,:]))^2
+      end
     end
     return wcss
   end

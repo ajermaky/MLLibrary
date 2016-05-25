@@ -18,7 +18,7 @@ module KNeighbors
         dot_prod[i,j]=euclidean(testSetRow,trainingSet[j,:])
       end
     end
-    println("we got our matrix!")
+    #println("we got our matrix!")
     for i=1:size(dot_prod)[1]
       #find the K smallest distances and get their labels. Take a majority. predicted_y[i] = majority
       indices = Statistics.getMinIndices(collect(dot_prod[i,:]),K)

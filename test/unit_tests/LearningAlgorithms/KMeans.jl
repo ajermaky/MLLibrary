@@ -11,6 +11,7 @@ using Base.Test
 
       trainingSet = CSE151MachineLearningLibrary.DataManipulation.DataTransform.convertToFloat(trainingSet)
 
+      println(trainingSet)
       println(CSE151MachineLearningLibrary.LearningAlgorithms.KMeans.trainKmeans(trainingSet, 4))
 
       @test 1==2

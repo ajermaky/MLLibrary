@@ -1,14 +1,6 @@
 module KMeans
   using ..KNeighbors
   using ...Statistics
-  using Distances
-  function Kmeans(training_set,test_set,k=1)
-    centroids = trainKmeans(training_set,k);
-    assignment = [1:k]
-    return KNeighbors.KNearestNeighbors(centroids,test_set,assignment)
-
-
-  end
 
   function runKMeans(centroids,dataset,k)
     assignment = 1:k
@@ -24,17 +16,13 @@ module KMeans
     index = 0;
     while(changed)
       index+=1
-    #  println(centroids)
       y=KNeighbors.KNearestNeighbors(centroids,training_set,assignment)
-    #  println(y)
       newCentroids = recalculateCentroids(centroids,training_set,y);
-    #  println(newCentroids)
       if centroids==newCentroids
         changed=false
       end
       centroids = newCentroids
     end
-    #println(index)
     return centroids,y;
   end
   #

@@ -1,8 +1,6 @@
 using Gadfly
 using Colors
 using CSE151MachineLearningLibrary
-using Regression
-using Clustering
 
 
 path=joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","datasets")
@@ -48,8 +46,9 @@ test = CSE151MachineLearningLibrary.DataManipulation.DataTransform.zScale(test,
 CSE151MachineLearningLibrary.Statistics.meanColumn(training),CSE151MachineLearningLibrary.Statistics.stdColumn(training))
 
 
-outfile = open(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","paResources","Week4","Problem1.txt"),"w")
+outfile = open(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","paResources","Week4","Problem1centroids.txt"),"w")
 outfile3 = open(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","paResources","Week4","Problem1wcss.txt"),"w")
+outfile4 = open(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","paResources","Week4","Problem1stats.txt"),"w")
 
 outfile2 = open(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","paResources","Week4","Problem2.txt"),"w")
 
@@ -68,8 +67,10 @@ for k in [1,2,4,8,16]
     average = CSE151MachineLearningLibrary.Statistics.meanColumn(newTraining)
     standarddeviation = CSE151MachineLearningLibrary.Statistics.stdColumn(newTraining)
 
-    write(outfile, "Cluster $i","\n")
-    write(outfile,"Mean:","$average" ,"\n\n","Std:", "$standarddeviation","\n\n"
+    write(outfile4, "K: ","$k","\n\n")
+
+    write(outfile4, "Cluster $i","\n")
+    write(outfile4,"Mean:","$average" ,"\n\n","Std:", "$standarddeviation","\n\n"
     )
 
   end
@@ -128,6 +129,7 @@ end
 close(outfile)
 close(outfile2)
 close(outfile3)
+close(outfile4)
 
 println(rmse);
 p = plot(

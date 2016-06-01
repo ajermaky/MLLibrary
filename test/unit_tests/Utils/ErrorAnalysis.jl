@@ -66,8 +66,9 @@ using Base.Test
     data=[1 2 1 1;4 1 2 2; 5 2 1 4;3 3 2 1]
     y=[1;1;2;2]
     wcss = CSE151MachineLearningLibrary.Utils.ErrorAnalysis.calculateWCSS(centroids,data,y)
+    println(wcss)
 
-    @test wcss==163
+    @test wcss==183
   end
 
 

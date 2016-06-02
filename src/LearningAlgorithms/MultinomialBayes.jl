@@ -14,9 +14,7 @@ module MultinomialBayes
     return countmap(labels)
   end
 
-  function getDictionary(dataset)
-    labels = dataset[:,end]
-    data = dataset[:,1:end-1]
+  function getDictionary(data, labels)
     classifier_counts = getClassifierCount(labels)
     dictionarySize = getDictionarySize(data)
     dictionary = Dict{Integer, Array{Float64,2}}();
@@ -35,8 +33,10 @@ module MultinomialBayes
     for i=1:size(documents)[1]
       probabilities = Dict()
       for key in keys(dictionaryProb)
+        println(filter!(x->x!=0,dictionaryProb[key].^documents[i,:]))
         probabilities[key] = prod(dictionaryProb[key].^documents[i,:])
       end
+      #println(probabilities)
       predictedLabels[i]=collect(keys(probabilities))[indmax(collect(values(probabilities)))]
     end
 

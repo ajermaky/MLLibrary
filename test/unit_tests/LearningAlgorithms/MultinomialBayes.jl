@@ -33,7 +33,7 @@ using Base.Test
        4. 2. 1. 10. 0.;
        3. 3. 2. 6. 1.;]
 
-    dict,dictProb = CSE151MachineLearningLibrary.LearningAlgorithms.MultinomialBayes.getDictionary(A)
+    dict,dictProb = CSE151MachineLearningLibrary.LearningAlgorithms.MultinomialBayes.getDictionary(A[:,1:end-1],A[:,end])
     @test dict==Dict(1=>[4. 5. 3. 11.],0=>[4. 2. 1. 10.])
     for key in keys(dictProb)
       dictProb[key] = round(dictProb[key],2)
@@ -49,7 +49,7 @@ using Base.Test
     B=[1. 1. 1. 3. 1;
        2. 2. 1. 4. 0.;
        4. 2. 1. 1. 0.;]
-    dict,dictProb = CSE151MachineLearningLibrary.LearningAlgorithms.MultinomialBayes.getDictionary(A)
+    dict,dictProb = CSE151MachineLearningLibrary.LearningAlgorithms.MultinomialBayes.getDictionary(A[:,1:end-1],A[:,end])
     @test CSE151MachineLearningLibrary.LearningAlgorithms.MultinomialBayes.classifyDocuments(B[:,1:end-1],dictProb) == [1.;1.;1.]''
   end
 

@@ -1,7 +1,7 @@
 using Gadfly
-using CSE151MachineLearningLibrary
+using MLLibrary
 using Colors
-path =Pkg.dir("CSE151MachineLearningLibrary","resources","datasets")
+path =Pkg.dir("MLLibrary","resources","datasets")
 week3=joinpath("Week3")
 # resources = #[["res"=>"regression_test.csv","path"=>joinpath(path,week3),"proxy"=>[]]]
 resources = [["res"=>"regression-0.05.csv","path"=>joinpath(path,week3),"proxy"=>[]],["res"=>"regression-A.csv","path"=>joinpath(path,week3),"proxy"=>[]],["res"=>"regression-B.csv","path"=>joinpath(path,week3),"proxy"=>[]],["res"=>"regression-C.csv","path"=>joinpath(path,week3),"proxy"=>[]],["res"=>"abalone.data","path"=>joinpath(path), "proxy"=>[Dict("column"=>1,"proxy"=>["M" "F" "I"])]]]
@@ -10,23 +10,23 @@ resources = [["res"=>"regression-0.05.csv","path"=>joinpath(path,week3),"proxy"=
 errors = Dict()
 for res in resources
   seed=123
-  training, test = CSE151MachineLearningLibrary.DataSampling.ThresholdSampling.getSets(joinpath(res["path"],res["res"]),",",.1,seed)
+  training, test = MLLibrary.DataSampling.ThresholdSampling.getSets(joinpath(res["path"],res["res"]),",",.1,seed)
 
   proxy = res["proxy"]
 
-  training=[CSE151MachineLearningLibrary.DataManipulation.DataTransform.addProxyColumns(training[:,1:end-1],proxy) training[:,end]]
+  training=[MLLibrary.DataManipulation.DataTransform.addProxyColumns(training[:,1:end-1],proxy) training[:,end]]
 
-  test=[CSE151MachineLearningLibrary.DataManipulation.DataTransform.addProxyColumns(test[:,1:end-1],proxy) test[:,end]]
+  test=[MLLibrary.DataManipulation.DataTransform.addProxyColumns(test[:,1:end-1],proxy) test[:,end]]
 
 # println(training)
 # println(test)
 
-  training = CSE151MachineLearningLibrary.DataManipulation.DataTransform.convertToFloat(training)
-  test= CSE151MachineLearningLibrary.DataManipulation.DataTransform.convertToFloat(test)
+  training = MLLibrary.DataManipulation.DataTransform.convertToFloat(training)
+  test= MLLibrary.DataManipulation.DataTransform.convertToFloat(test)
   println("Data is ready")
   println(typeof(training))
 
-  betacol = CSE151MachineLearningLibrary.LearningAlgorithms.LinearRegression.linearRegression(training[:,1:end-1],training[:,end],CSE151MachineLearningLibrary.LinearAlgebra.HouseHolders.householdDecompose)
+  betacol = MLLibrary.LearningAlgorithms.LinearRegression.linearRegression(training[:,1:end-1],training[:,end],MLLibrary.LinearAlgebra.HouseHolders.householdDecompose)
 
 
   println("finished dcomposing")
@@ -37,7 +37,7 @@ for res in resources
 
   #println((observed),(test_y))
 
-  rms = round(CSE151MachineLearningLibrary.Utils.ErrorAnalysis.calculateRootMeanStandardError(observed,test_y),2)
+  rms = round(MLLibrary.Utils.ErrorAnalysis.calculateRootMeanStandardError(observed,test_y),2)
   errors[res["res"]]=rms
 end
 
@@ -76,4 +76,4 @@ p = plot(
 #
 # push!(p,  Guide.manual_color_key("Legend", color_keys, colors))
 
-draw(PNG(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","paResources","Week3","RMSEErrors.png"), 800px, 600px), p)
+draw(PNG(joinpath(Pkg.dir("MLLibrary"),"resources","paResources","Week3","RMSEErrors.png"), 800px, 600px), p)

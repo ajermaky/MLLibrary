@@ -1,10 +1,10 @@
 using Gadfly
-using CSE151MachineLearningLibrary
+using MLLibrary
 
 println("Running Statistics Tests")
 srand(123)
-file = joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","datasets","abalone.data")
-count=CSE151MachineLearningLibrary.DataParser.DataStream.getDataSetCount(file)
+file = joinpath(Pkg.dir("MLLibrary"),"resources","datasets","abalone.data")
+count=MLLibrary.DataParser.DataStream.getDataSetCount(file)
 threshold=.1
 total_runs = 5
 num_runs= 1
@@ -18,7 +18,7 @@ for i=1:total_runs
   num_runs*=run_increment
   runs_x[i]=num_runs
   for run=1:num_runs
-    testset[CSE151MachineLearningLibrary.DataSampling.ThresholdSampling.getThresholdTrainingSetIndicies(file,count,threshold)]+=1;
+    testset[MLLibrary.DataSampling.ThresholdSampling.getThresholdTrainingSetIndicies(file,count,threshold)]+=1;
   end
   mean_y[i] = mean(testset)/num_runs
   std_y[i] = std(testset)/num_runs
@@ -44,4 +44,4 @@ p = plot(
   Guide.manual_color_key("Legend", ["Mean", "Standard Deviation"], ["blue", "orange"])
 )
 
-draw(PNG(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","paResources","Week1","ExpectedValuesvsRuns.png"), 800px, 600px), p)
+draw(PNG(joinpath(Pkg.dir("MLLibrary"),"resources","paResources","Week1","ExpectedValuesvsRuns.png"), 800px, 600px), p)

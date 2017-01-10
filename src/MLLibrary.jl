@@ -1,4 +1,4 @@
-module CSE151MachineLearningLibrary
+module MLLibrary
 
 # package code goes here
   files = ["DataParser","Statistics","LearningAlgorithms","DataSampling","DataManipulation","Utils","LinearAlgebra"]

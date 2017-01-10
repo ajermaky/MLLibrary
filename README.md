@@ -1,4 +1,16 @@
-# CSE151MachineLearningLibrary
+# CustomMachineLearningLibrary
+This Library was a quarter long project where we create our own ML package.
+This includes:
+* Parsing large data sets that cannot fit in memory
+* Sampling and dividing data into training and test sets
+* Implementions of basic ML algorithms utilizing Linear Algebra methods
+
+I decided to create the project in Julia for the purposes of learning the
+language, which was v0.4 at the time. As a result, the codebase itself is
+was not created to make use of Julia's full functionality. In addition
+the actual implementations may be buggy and incomplete in some sections
+as a result of time constraints. This project is abandoned and should not be
+used under any circumstances, and is only for viewing purposes!
 
 ## Dependencies:
 This package depends on unregistered packages:
@@ -9,7 +21,7 @@ This package depends on unregistered packages:
 
 ## Install
 ```julia
-Pkg.clone("https://bitbucket.org/arajermakyan/cse151machinelearning.jl")
+Pkg.clone("https://github.com/ajermaky/MLLibrary.jl")
 Pkg.resolve()
 ```
 
@@ -17,7 +29,7 @@ Pkg.resolve()
 
 To use this module:
 ```julia
-  using CSE151MachineLearningLibrary
+  using MLLibrary
 ```
 ##Different Branches
 Previous Branches:
@@ -36,12 +48,12 @@ To see previous branches, simply do
 
 To Run Unit Tests:
 ```julia
-  Pkg.test("CSE151MachineLearningLibrary")
+  Pkg.test("MLLibrary")
 ```
 
 To run custom test that regenerates resource files:
 ```julia
-  cd("~/.julia/v0.4/CSE151MachineLearningLibrary")
+  cd("~/.julia/v0.4/MLLibrary")
   include("test/high_level_tests/Statistics.jl")
   include("test/high_level_tests/KNeighbors.jl")
   include("test/high_level_tests/LinearRegression.jl")
@@ -49,5 +61,5 @@ To run custom test that regenerates resource files:
 ```
 ##Unintsall
 ```julia
-  Pkg.rm("CSE151MachineLearning.jl")
+  Pkg.rm("MLLibrary.jl")
 ```

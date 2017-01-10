@@ -1,4 +1,4 @@
-using CSE151MachineLearningLibrary
+using MLLibrary
 using RunTests
 using Base.Test
 module RegressionTest

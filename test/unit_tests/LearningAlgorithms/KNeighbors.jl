@@ -2,7 +2,7 @@ using RunTests
 using Base.Test
 
 @testmodule KNeighborsTest begin
-  using CSE151MachineLearningLibrary
+  using MLLibrary
 
   function test_KNearestNeighbors()
     A = [1 0 1 1 0 0;
@@ -19,7 +19,7 @@ using Base.Test
 
     Theoretical = [1;1;0]
     for i=1:3
-      actual = CSE151MachineLearningLibrary.LearningAlgorithms.KNeighbors.KNearestNeighbors(A,Test,B,(i*2)-1)
+      actual = MLLibrary.LearningAlgorithms.KNeighbors.KNearestNeighbors(A,Test,B,(i*2)-1)
 
       @test actual[1] == Theoretical[i]
     end

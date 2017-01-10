@@ -1,34 +1,34 @@
 using Gadfly
 using Colors
-using CSE151MachineLearningLibrary
+using MLLibrary
 
 
-path=joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","datasets")
+path=joinpath(Pkg.dir("MLLibrary"),"resources","datasets")
 seed=123
 threshold =.1
 delimiter = ","
-QRDecomposeMethod =CSE151MachineLearningLibrary.LinearAlgebra.HouseHolders.householdDecompose
+QRDecomposeMethod =MLLibrary.LinearAlgebra.HouseHolders.householdDecompose
 
 #resources = ["3percent-miscategorization","10percent-miscatergorization","abalone.data","Seperable.csv"]
-resources=["res"=>"abalone.data" ,"proxy"=>[Dict("column"=>1,"proxy"=>["M" "F" "I"])],"path"=>Pkg.dir("CSE151MachineLearningLibrary","resources","datasets")]
+resources=["res"=>"abalone.data" ,"proxy"=>[Dict("column"=>1,"proxy"=>["M" "F" "I"])],"path"=>Pkg.dir("MLLibrary","resources","datasets")]
 errors = Dict()
 
 
-training, test = CSE151MachineLearningLibrary.DataSampling.ThresholdSampling.getSets(joinpath(resources["path"],resources["res"]),",",threshold,seed)
+training, test = MLLibrary.DataSampling.ThresholdSampling.getSets(joinpath(resources["path"],resources["res"]),",",threshold,seed)
 
 proxy = resources["proxy"]
 
 
 
-training=[CSE151MachineLearningLibrary.DataManipulation.DataTransform.addProxyColumns(training[:,1:end-1],proxy) training[:,end]]
+training=[MLLibrary.DataManipulation.DataTransform.addProxyColumns(training[:,1:end-1],proxy) training[:,end]]
 
-test=[CSE151MachineLearningLibrary.DataManipulation.DataTransform.addProxyColumns(test[:,1:end-1],proxy) test[:,end]]
+test=[MLLibrary.DataManipulation.DataTransform.addProxyColumns(test[:,1:end-1],proxy) test[:,end]]
 
 # println(training)
 # println(test)
 
-unscaled_training = CSE151MachineLearningLibrary.DataManipulation.DataTransform.convertToFloat(training)
-unscaled_test= CSE151MachineLearningLibrary.DataManipulation.DataTransform.convertToFloat(test)
+unscaled_training = MLLibrary.DataManipulation.DataTransform.convertToFloat(training)
+unscaled_test= MLLibrary.DataManipulation.DataTransform.convertToFloat(test)
 
 training_y = unscaled_training[:,end]
 test_y = unscaled_test[:,end]
@@ -40,22 +40,22 @@ println("Data is ready")
 
 unscaled_training = copy(training)
 unscaled_test = copy(test)
-training =CSE151MachineLearningLibrary.DataManipulation.DataTransform.zScale(training)
+training =MLLibrary.DataManipulation.DataTransform.zScale(training)
 
-test = CSE151MachineLearningLibrary.DataManipulation.DataTransform.zScale(test,
-CSE151MachineLearningLibrary.Statistics.meanColumn(training),CSE151MachineLearningLibrary.Statistics.stdColumn(training))
+test = MLLibrary.DataManipulation.DataTransform.zScale(test,
+MLLibrary.Statistics.meanColumn(training),MLLibrary.Statistics.stdColumn(training))
 
 
-outfile = open(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","paResources","Week4","Problem1centroids.txt"),"w")
-outfile3 = open(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","paResources","Week4","Problem1wcss.txt"),"w")
-outfile4 = open(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","paResources","Week4","Problem1stats.txt"),"w")
+outfile = open(joinpath(Pkg.dir("MLLibrary"),"resources","paResources","Week4","Problem1centroids.txt"),"w")
+outfile3 = open(joinpath(Pkg.dir("MLLibrary"),"resources","paResources","Week4","Problem1wcss.txt"),"w")
+outfile4 = open(joinpath(Pkg.dir("MLLibrary"),"resources","paResources","Week4","Problem1stats.txt"),"w")
 
-outfile2 = open(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","paResources","Week4","Problem2.txt"),"w")
+outfile2 = open(joinpath(Pkg.dir("MLLibrary"),"resources","paResources","Week4","Problem2.txt"),"w")
 
 wcss=Dict()
 rmse=Dict()
 for k in [1,2,4,8,16]
-  centroids,ktrain_y = CSE151MachineLearningLibrary.LearningAlgorithms.KMeans.trainKmeans(training,k,seed)
+  centroids,ktrain_y = MLLibrary.LearningAlgorithms.KMeans.trainKmeans(training,k,seed)
 
   write(outfile, "K: ","$k","\n\n")
   write(outfile, "Centroids:","\n","$centroids","\n\n")
@@ -64,8 +64,8 @@ for k in [1,2,4,8,16]
   for i=1:k
 
     newTraining = training[find(x->x==i,ktrain_y),:]
-    average = CSE151MachineLearningLibrary.Statistics.meanColumn(newTraining)
-    standarddeviation = CSE151MachineLearningLibrary.Statistics.stdColumn(newTraining)
+    average = MLLibrary.Statistics.meanColumn(newTraining)
+    standarddeviation = MLLibrary.Statistics.stdColumn(newTraining)
 
     write(outfile4, "K: ","$k","\n\n")
 
@@ -75,13 +75,13 @@ for k in [1,2,4,8,16]
 
   end
   #caclulate the wcss
-  wcss[k]=CSE151MachineLearningLibrary.Utils.ErrorAnalysis.calculateWCSS(centroids,training,ktrain_y)
+  wcss[k]=MLLibrary.Utils.ErrorAnalysis.calculateWCSS(centroids,training,ktrain_y)
   wcsstemp = wcss[k]
   write(outfile3, "K: ","$k","\n\n")
   write(outfile3, "WCSS:","\n","$wcsstemp","\n\n")
 
   #Problem 2, we now run on test set
-  kmeans_y = CSE151MachineLearningLibrary.LearningAlgorithms.KMeans.runKMeans(centroids,test,k)
+  kmeans_y = MLLibrary.LearningAlgorithms.KMeans.runKMeans(centroids,test,k)
 
   predicted_y=zeros(Float64,size(test_y))
 
@@ -98,7 +98,7 @@ for k in [1,2,4,8,16]
       test_cluster = unscaled_test[test_indices,:];
       # println(size(test_cluster))
 
-      standarddeviation = CSE151MachineLearningLibrary.Statistics.stdColumn(cluster_k)
+      standarddeviation = MLLibrary.Statistics.stdColumn(cluster_k)
       latentvar = []
       for l=1:length(standarddeviation)
         if standarddeviation[l]>.001
@@ -107,13 +107,13 @@ for k in [1,2,4,8,16]
       end
       cluster_k=cluster_k[:,latentvar]
       test_cluster= test_cluster[:,latentvar]
-      betacol = CSE151MachineLearningLibrary.LearningAlgorithms.LinearRegression.linearRegression(cluster_k,cluster_k_y,QRDecomposeMethod)
+      betacol = MLLibrary.LearningAlgorithms.LinearRegression.linearRegression(cluster_k,cluster_k_y,QRDecomposeMethod)
       predicted_y[test_indices,:] = test_cluster*betacol
     end
   end
   write(outfile2, "RMSES", "\n\n")
   write(outfile2, "K: ","$k","\n\n")
-  rmse[k]= CSE151MachineLearningLibrary.Utils.ErrorAnalysis.calculateRootMeanStandardError(predicted_y,test_y);
+  rmse[k]= MLLibrary.Utils.ErrorAnalysis.calculateRootMeanStandardError(predicted_y,test_y);
   rmsetemp = rmse[k]
   write(outfile2, "RMSE:","\n","$rmsetemp","\n\n")
 
@@ -146,7 +146,7 @@ p = plot(
 )
 
 
-draw(PNG(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","paResources","Week4","WCSSErrors.png"), 800px, 600px), p)
+draw(PNG(joinpath(Pkg.dir("MLLibrary"),"resources","paResources","Week4","WCSSErrors.png"), 800px, 600px), p)
 
 
 p = plot(
@@ -161,4 +161,4 @@ p = plot(
   label=map(string,(values(rmse)))
   #color="DataSet"
 )
-draw(PNG(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","paResources","Week4","RMSEErrors.png"), 800px, 600px), p)
+draw(PNG(joinpath(Pkg.dir("MLLibrary"),"resources","paResources","Week4","RMSEErrors.png"), 800px, 600px), p)

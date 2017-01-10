@@ -1,9 +1,9 @@
 using Gadfly
 using Colors
-using CSE151MachineLearningLibrary
+using MLLibrary
 
 
-path=joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","datasets")
+path=joinpath(Pkg.dir("MLLibrary"),"resources","datasets")
 
 threshold =.1
 delimiter = ","
@@ -16,7 +16,7 @@ resources=[
 ]
 errors = Dict()
 
-outfile = open(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","paResources","Week2","ConfusionMatrix.txt"),"w")
+outfile = open(joinpath(Pkg.dir("MLLibrary"),"resources","paResources","Week2","ConfusionMatrix.txt"),"w")
 for r  in resources
 
   println("Running Tests for ",r["res"])
@@ -25,24 +25,24 @@ for r  in resources
   proxyColumns = r["proxy"]
 
   srand(1234)
-  trainingSet = CSE151MachineLearningLibrary.DataSampling.ThresholdSampling.getTrainingSet(res,delimiter,threshold)
+  trainingSet = MLLibrary.DataSampling.ThresholdSampling.getTrainingSet(res,delimiter,threshold)
 
   srand(1234)
 
-  testSet = CSE151MachineLearningLibrary.DataSampling.ThresholdSampling.getTestSet(res,delimiter,threshold)
+  testSet = MLLibrary.DataSampling.ThresholdSampling.getTestSet(res,delimiter,threshold)
 
 
   training_y = trainingSet[:,end]
   test_y = testSet[:,end]
   trainingSet=trainingSet[:,1:end-1]
   testSet=testSet[:,1:end-1]
-  trainingSet=CSE151MachineLearningLibrary.DataManipulation.DataTransform.addProxyColumns(trainingSet,proxyColumns)
-  testSet=CSE151MachineLearningLibrary.DataManipulation.DataTransform.addProxyColumns(testSet,proxyColumns)
+  trainingSet=MLLibrary.DataManipulation.DataTransform.addProxyColumns(trainingSet,proxyColumns)
+  testSet=MLLibrary.DataManipulation.DataTransform.addProxyColumns(testSet,proxyColumns)
 
-  trainingSet= CSE151MachineLearningLibrary.DataManipulation.DataTransform.convertToFloat(trainingSet)
-  testSet= CSE151MachineLearningLibrary.DataManipulation.DataTransform.convertToFloat(testSet)
-  training_y= CSE151MachineLearningLibrary.DataManipulation.DataTransform.convertToFloat(training_y)
-  test_y= CSE151MachineLearningLibrary.DataManipulation.DataTransform.convertToFloat(test_y)
+  trainingSet= MLLibrary.DataManipulation.DataTransform.convertToFloat(trainingSet)
+  testSet= MLLibrary.DataManipulation.DataTransform.convertToFloat(testSet)
+  training_y= MLLibrary.DataManipulation.DataTransform.convertToFloat(training_y)
+  test_y= MLLibrary.DataManipulation.DataTransform.convertToFloat(test_y)
 
   #println(r["indices"])
   for i in r["indices"]
@@ -52,21 +52,21 @@ for r  in resources
     average = mean(column)
 
     standarddeviation=std(column)
-    trainingSet = CSE151MachineLearningLibrary.DataManipulation.DataTransform.zScaleColumn(trainingSet,i,average,standarddeviation)
-    testSet = CSE151MachineLearningLibrary.DataManipulation.DataTransform.zScaleColumn(testSet,i,average,standarddeviation)
+    trainingSet = MLLibrary.DataManipulation.DataTransform.zScaleColumn(trainingSet,i,average,standarddeviation)
+    testSet = MLLibrary.DataManipulation.DataTransform.zScaleColumn(testSet,i,average,standarddeviation)
   end
 
 #println(testSet)
   println("We got our Datasets!")
   #println(testSet)
   for K in [1 3 5 7 9]
-    predicted_y=CSE151MachineLearningLibrary.LearningAlgorithms.KNeighbors.KNearestNeighbors(trainingSet,testSet,training_y,K)
+    predicted_y=MLLibrary.LearningAlgorithms.KNeighbors.KNearestNeighbors(trainingSet,testSet,training_y,K)
 
-    confusionMatrix=CSE151MachineLearningLibrary.Utils.ErrorAnalysis.generateConfusionMatrix(test_y,predicted_y)
-    errors[r["res"]][K] = 1 - CSE151MachineLearningLibrary.Utils.ErrorAnalysis.calculateWeightedSuccessRate(confusionMatrix)
+    confusionMatrix=MLLibrary.Utils.ErrorAnalysis.generateConfusionMatrix(test_y,predicted_y)
+    errors[r["res"]][K] = 1 - MLLibrary.Utils.ErrorAnalysis.calculateWeightedSuccessRate(confusionMatrix)
     println(errors[r["res"]][K])
 
-    #CSE151MachineLearningLibrary.Utils.ErrorAnalysis.calculateErrorRate(test_y,predicted_y)
+    #MLLibrary.Utils.ErrorAnalysis.calculateErrorRate(test_y,predicted_y)
 
 
   end
@@ -74,9 +74,9 @@ for r  in resources
   theset = errors[r["res"]]
   Kmin = collect(keys(theset))[indmin(collect(values(theset)))]
   println(Kmin)
-  optimal_y = CSE151MachineLearningLibrary.LearningAlgorithms.KNeighbors.KNearestNeighbors(trainingSet,testSet,training_y,Kmin)
+  optimal_y = MLLibrary.LearningAlgorithms.KNeighbors.KNearestNeighbors(trainingSet,testSet,training_y,Kmin)
 
-  confusionmatrix =CSE151MachineLearningLibrary.Utils.ErrorAnalysis.generateConfusionMatrix(test_y,optimal_y)
+  confusionmatrix =MLLibrary.Utils.ErrorAnalysis.generateConfusionMatrix(test_y,optimal_y)
 
   #println(size(confusionmatrix))
   write(outfile, r["res"],"\n","Minimum K: ","$Kmin", "\n","ConfusionMatrix: \n")
@@ -128,4 +128,4 @@ end
 
 push!(p,  Guide.manual_color_key("Legend", color_keys, colors))
 
-draw(PNG(joinpath(Pkg.dir("CSE151MachineLearningLibrary"),"resources","paResources","Week2","ErrorRatesVsK.png"), 800px, 600px), p)
+draw(PNG(joinpath(Pkg.dir("MLLibrary"),"resources","paResources","Week2","ErrorRatesVsK.png"), 800px, 600px), p)

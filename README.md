@@ -25,13 +25,13 @@ Pkg.clone("https://github.com/ajermaky/MLLibrary.jl")
 Pkg.resolve()
 ```
 
-##Use:
+## Use:
 
 To use this module:
 ```julia
   using MLLibrary
 ```
-##Different Branches
+## Different Branches
 Previous Branches:
 Week1&2 Branch: week1_and_2_refactor
 Week 3 Branch: week3
@@ -44,7 +44,7 @@ To see previous branches, simply do
 
 ```
 
-##Test:
+## Test:
 
 To Run Unit Tests:
 ```julia
@@ -59,7 +59,7 @@ To run custom test that regenerates resource files:
   include("test/high_level_tests/LinearRegression.jl")
   include("test/high_level_tests/KMeans.jl")
 ```
-##Unintsall
+## Unintsall
 ```julia
   Pkg.rm("MLLibrary.jl")
 ```
